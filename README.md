@@ -20,6 +20,8 @@ This app will take user location inquery and output and map location as well as 
 - Libraries: express.js, dotenv.js, cors.js
 
 ## Change Log
+== 1.0.2 ==
+- refactored code by creating modules
 == 1.0.1 ==
 - implemented movieDB
 == 1.0.0 ==
@@ -53,6 +55,6 @@ Estimate of time needed to complete: 1 hour
 
 Start time: 11:30
 
-Finish time: 
+Finish time: 1:20
 
-Actual time needed to complete: 15 minutes
+Actual time needed to complete: 1 hour and 50 minutes
