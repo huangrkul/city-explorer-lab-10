@@ -1,8 +1,8 @@
 # lab-08-back-end
 
-**Author**: Lucas Wilber
-**Collaborator**: Will Huang
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Author**: Will Huang
+**Collaborator**: Ting Luo
+**Version**: 1.0.1 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
@@ -21,25 +21,24 @@ This app will take user location inquery and output and map location as well as 
 
 ## Change Log
 == 1.0.0 ==
-- Refactored code
-- Database setup
+- implemented yelp
 
-**Number and name of feature: Refactor Code**
+**Number and name of feature: Add Yelp API**
 
-Estimate of time needed to complete: 45 minutes
+Estimate of time needed to complete: 50 minutes
 
-Start time: 9:20
+Start time: 9:40
 
-Finish time: 10:00
+Finish time: 10:20
 
 Actual time needed to complete: 40 minutes
 
 
-**Number and name of feature: Database Setup**
+**Number and name of feature: Add MovieDB API**
 
 Estimate of time needed to complete: 1 hour
 
-Start time: 10:00
+Start time: 10:20
 
 Finish time: 10:45
 
