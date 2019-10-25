@@ -17,6 +17,7 @@ client.on('error', err => { throw err; });
 app.get('/location', handleLocation);
 app.get('/weather', handleWeather);
 app.get('/trails', handleTrails);
+app.get('/yelp', handleYelp);
 app.get('*', handleError);
 
 
@@ -82,27 +83,23 @@ function handleWeather(request, response) {
 
   const url = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_KEY}/${locationObj.latitude},${locationObj.longitude}`;
 
-  if (storedUrls[url]) {
-    // console.log('using cached url', storedUrls[url]);
-    response.send(storedUrls[url]);
-  } else {
-    console.log('making the api call to darksky');
-    superagent.get(url)
-      .then(resultsFromSuperagent => {
-        let daysOfWeather = resultsFromSuperagent.body.daily.data;
-        //console.log(daysOfWeather);
-        let weatherArray = daysOfWeather.map(day => {
-          return new Weather(day);
-        });
-
-        console.log('done calling the darksky API');
-        response.status(200).send(weatherArray);
-      })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send('server error.');
+  console.log('making the api call to darksky');
+  superagent.get(url)
+    .then(resultsFromSuperagent => {
+      let daysOfWeather = resultsFromSuperagent.body.daily.data;
+      //console.log(daysOfWeather);
+      let weatherArray = daysOfWeather.map(day => {
+        return new Weather(day);
       });
-  }
+
+      console.log('done calling the darksky API');
+      response.status(200).send(weatherArray);
+    })
+    .catch((error) => {
+      console.error(error);
+      response.status(500).send('server error.');
+    });
+
 }
 
 function Weather(day) {
@@ -116,27 +113,21 @@ function handleTrails(request, response) {
   //console.log(`trail: ${trail}`);
   const url = `https://www.hikingproject.com/data/get-trails?lat=${locationObj.latitude}&lon=${locationObj.longitude}&key=${process.env.TRAILS_API_KEY}`;
 
-
-  if (storedUrls[url]) {
-    // console.log('using cached url', storedUrls[url]);
-    response.send(storedUrls[url]);
-  } else {
-    console.log('making the api call to trails');
-    superagent.get(url)
-      .then(resultsFromSuperagent => {
-        let trailsArr = resultsFromSuperagent.body.trails.map(prop => {
-          return new Trail(prop);
-        })
-        //storedUrls[url] = trailsArr;
-        response.status(200).send(trailsArr);
-
+  // console.log('using cached url', storedUrls[url]);
+  response.send(storedUrls[url]);
+  console.log('making the api call to trails');
+  superagent.get(url)
+    .then(resultsFromSuperagent => {
+      let trailsArr = resultsFromSuperagent.body.trails.map(prop => {
+        return new Trail(prop);
       })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send('server error.');
-      });
-
-  }
+      //storedUrls[url] = trailsArr;
+      response.status(200).send(trailsArr);
+    })
+    .catch((error) => {
+      console.error(error);
+      response.status(500).send('server error.');
+    });
 }
 
 function Trail(obj) {
@@ -151,6 +142,36 @@ function Trail(obj) {
   //API returns a full string but the front end requires that string to be split up:
   this.condition_date = obj.conditionDate.split(' ')[0];
   this.condition_time = obj.conditionDate.split(' ')[1];
+}
+
+function handleYelp() {
+  const locationObj = request.query.data;
+  const url = `https://api.yelp.com/v3/businesses/search?location=${locationObj.search_query}`;
+  superagent.get(url)
+  .set('Authorization', Bearer ${process.env.YELP_API_KEY})
+  .then(resultsFromSuperagent => {
+    let yelpArr = resultsFromSuperagent.body.businesses[0].map(prop => {
+      return new Yelp(prop);
+    })
+    response.status(200).send(yelpArr);
+  })
+  .catch(error => {
+    console.error(error);
+    response.send(error).status(500);
+  });
+}
+
+function Yelp(obj) {
+    // "name": "Pike Place Chowder",
+    // "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/ijju-wYoRAxWjHPTCxyQGQ/o.jpg",
+    // "price": "$$   ",
+    // "rating": "4.5",
+    // "url": "https://www.yelp.com/biz/pike-place-chowder-seattle?adjust_creative=uK0rfzqjBmWNj6-d3ujNVA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=uK0rfzqjBmWNj6-d3ujNVA"
+    this.name = obj.businesses[0].name;
+    this.image_url = obj.businesses[0].image_url;
+    this.price = obj.businesses[0].price;
+    this.rating = obj.businesses[0].rating;
+    this.url = obj.businesses[0].url;
 }
 
 function handleError(request, response) {
