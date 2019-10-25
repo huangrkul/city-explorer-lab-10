@@ -20,6 +20,8 @@ This app will take user location inquery and output and map location as well as 
 - Libraries: express.js, dotenv.js, cors.js
 
 ## Change Log
+== 1.0.1 ==
+- implemented movieDB
 == 1.0.0 ==
 - implemented yelp
 
@@ -41,5 +43,16 @@ Estimate of time needed to complete: 1 hour
 Start time: 10:20
 
 Finish time: 11:30
+
+Actual time needed to complete: 15 minutes
+
+
+**Number and name of feature: Refactor Server.js**
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 11:30
+
+Finish time: 
 
 Actual time needed to complete: 15 minutes
