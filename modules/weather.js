@@ -4,7 +4,7 @@ const superagent = require('superagent');
 function handleWeather(request, response) {
   const locationObj = request.query.data;
 
-  const url = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_KEY}/${locationObj.latitude},${locationObj.longitude}`;
+  const url = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${locationObj.latitude},${locationObj.longitude}`;
 
   console.log('making the api call to darksky');
   superagent.get(url)

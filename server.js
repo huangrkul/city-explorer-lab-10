@@ -27,8 +27,6 @@ function handleError(request, response) {
   response.status(404).send('Server connection problem');
 }
 
-
-
 client.connect()
   .then(() => {
     console.log('connected to db');
